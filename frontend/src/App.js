@@ -1,14 +1,11 @@
 import React, { Component } from "react";
-import logo from "./logo.svg";
 import "./App.css";
-import Posts from "./components/Posts";
-import Postform from "./components/Postform";
 import { Provider } from "react-redux";
 import store from "./store";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Home from "./components/Home";
 import News from "./components/News";
-import About from "./components/About";
+import AddVinyl from "./components/AddVinyl";
 import Navbar from "./components/CustomNavbar";
 
 class App extends Component {
@@ -19,7 +16,7 @@ class App extends Component {
           <div>
             <Navbar />
             <Route exact path="/" component={Home} />
-            <Route path="/about" component={About} />
+            <Route path="/add-vinyl" component={AddVinyl} />
             <Route path="/news" component={News} />
           </div>
         </Router>
