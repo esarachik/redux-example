@@ -1,11 +1,13 @@
 import React from "react";
 import { ControlLabel, FormGroup, FormControl } from "react-bootstrap";
+import { getValidationState } from "../validations";
+
 
 const DropDown = ({ label, list, state, action }) => {
   return (
     <FormGroup
       controlId="genres"
-      validationState={this.getValidationState(state)}
+      validationState={getValidationState(state)} 
     >
       <ControlLabel>{label}</ControlLabel>
       <FormControl componentClass="select" onChange={action}>

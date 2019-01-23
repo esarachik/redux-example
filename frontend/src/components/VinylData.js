@@ -6,6 +6,7 @@ import {
   FormGroup,
   ControlLabel
 } from "react-bootstrap";
+import { getValidationState } from "../validations";
 
 import { connect } from "react-redux";
 import {
@@ -25,24 +26,14 @@ class VinylData extends Component {
     super(props, context);
 
     this.handleChange = this.handleChange.bind(this);
-    this.handleUpdateBand = this.handleUpdateBand.bind(this);
-    this.handleUpdateCountry = this.handleUpdateCountry.bind(this);
-    this.handleUpdateGenre = this.handleUpdateGenre.bind(this);
-    this.handleUpdateLabel = this.handleUpdateLabel.bind(this);
+    this.invoke = this.invoke.bind(this);
 
     this.state = {
       countries: [],
       bands: [],
       genres: [],
-      labels: [],
-      name: "",
-      year: ""
+      labels: []
     };
-  }
-  getValidationState(e) {
-    const length = e.length;
-    if (length > 0) return "success";
-    else return null;
   }
 
   componentWillMount() {
@@ -56,38 +47,21 @@ class VinylData extends Component {
     this.setState({ [e.target.id]: e.target.value });
   }
 
-  handleUpdateBand(e) {
-    this.props.updateBand({
-      name: e.target.value
-    });
-  }
-
-  handleUpdateCountry(e) {
-    this.props.updateCountry({
-      name: e.target.value
-    });
-  }
-
-  handleUpdateGenre(e) {
-    this.props.updateGenre({
-      name: e.target.value
-    });
-  }
-
-  handleUpdateLabel(e) {
-    this.props.updateLabel({
-      name: e.target.value
-    });
-  }
+  invoke = event => e => {
+    event({ name: e.target.value });
+  };
 
   render() {
+    
+    const { updateBand, updateCountry, updateGenre, updateLabel } = this.props;
+
     return (
       <React.Fragment>
         <Row>
           <Col xs={12} md={4}>
             <FormGroup
               controlId="name"
-              validationState={this.getValidationState(this.state.name)}
+              validationState={getValidationState(this.state.name)}
             >
               <ControlLabel>Disc Name</ControlLabel>
               <FormControl
@@ -103,13 +77,13 @@ class VinylData extends Component {
               label={"Band"}
               list={this.props.bands}
               state={this.state.band}
-              action={this.handleUpdateBand}
+              action={this.invoke(updateBand)}
             />
           </Col>
           <Col xs={12} md={4}>
             <FormGroup
               controlId="year"
-              validationState={this.getValidationState(this.state.year)}
+              validationState={getValidationState(this.state.year)}
             >
               <ControlLabel>Year</ControlLabel>
               <FormControl
@@ -128,7 +102,7 @@ class VinylData extends Component {
               label={"Genre"}
               list={this.props.genres}
               state={this.state.genre}
-              action={this.handleUpdateGenre}
+              action={this.invoke(updateGenre)}
             />
           </Col>
           <Col xs={12} md={4}>
@@ -136,7 +110,7 @@ class VinylData extends Component {
               label={"Label"}
               list={this.props.labels}
               state={this.state.label}
-              action={this.handleUpdateLabel}
+              action={this.invoke(updateLabel)}
             />
           </Col>
           <Col xs={12} md={4}>
@@ -144,7 +118,7 @@ class VinylData extends Component {
               label={"Country"}
               list={this.props.countries}
               state={this.state.country}
-              action={this.handleUpdateCountry}
+              action={this.invoke(updateCountry)}
             />
           </Col>
         </Row>

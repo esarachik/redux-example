@@ -10,15 +10,9 @@ import {
   Table
 } from "react-bootstrap";
 import { addTrack, removeTrack } from "../actions/trackActions";
+import { getValidationState } from "../validations";
 
 class TrackList extends Component {
-  getValidationState() {
-    // const length = this.state.value.length;
-    // if (length > 10) return "success";
-    // else if (length > 5) return "warning";
-    // else if (length > 0) return "error";
-    return null;
-  }
   constructor(props, context) {
     super(props, context);
 
@@ -50,7 +44,7 @@ class TrackList extends Component {
           <Col xs={12} md={4}>
             <FormGroup
               controlId="trackName"
-              validationState={this.getValidationState()}
+              validationState={getValidationState(this.state.trackName)}
             >
               <ControlLabel>Track</ControlLabel>
               <FormControl
@@ -64,7 +58,7 @@ class TrackList extends Component {
           <Col xs={12} md={4}>
             <FormGroup
               controlId="trackDuration"
-              validationState={this.getValidationState()}
+              validationState={getValidationState(this.state.trackDuration)}
             >
               <ControlLabel>Duration</ControlLabel>
               <FormControl
@@ -99,15 +93,21 @@ class TrackList extends Component {
             </tr>
           </thead>
           <tbody>
-            {this.state.tracks.map(element => {
-              return (
-                <tr>
-                  <td>{element.number}</td>
-                  <td>{element.name}</td>
-                  <td>{element.duration}</td>
-                </tr>
-              );
-            })}
+            {this.state.tracks && this.state.tracks.length > 0 ? (
+              this.state.tracks.map(element => {
+                return (
+                  <tr>
+                    <td>{element.number}</td>
+                    <td>{element.name}</td>
+                    <td>{element.duration}</td>
+                  </tr>
+                );
+              })
+            ) : (
+              <tr>
+                <td colSpan={3}>No tracks!</td>
+              </tr>
+            )}
           </tbody>
         </Table>
       </React.Fragment>

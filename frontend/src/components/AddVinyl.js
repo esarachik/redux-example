@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import VinylData from "./VinylData";
 import TrackList from "./TrackList";
 import { connect } from "react-redux";
+import {} from '../validations'
 
 import { Grid, Col, Row, Button } from "react-bootstrap";
 
