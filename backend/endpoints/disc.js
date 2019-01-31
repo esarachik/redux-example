@@ -13,6 +13,19 @@ router.get('/discs', async (req, res) => {
     }
 })    
 
+router.post('/disc', (req, res) => {
+    var discData = req.body
+
+    var disc = new Disc(discData)
+
+    disc.save((err, newDisc) => {
+        debugger;
+        if (err)
+            return res.status(500).send({ message: "Error saving Disc" })
+            res.status(200).send({ newDisc })
+    })
+})
+
 var disc = {
     router
 }

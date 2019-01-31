@@ -13,6 +13,18 @@ router.get('/tracks', async (req, res) => {
     }
 })    
 
+router.post('/track', (req, res) => {
+    var trackData = req.body
+
+    var track = new Track(trackData)
+
+    track.save((err, newTrack) => {
+        if (err)
+            return res.status(500).send({ message: "Error saving Track" })
+            res.status(200).send({ newTrack })
+    })
+})
+
 var track = {
     router
 }

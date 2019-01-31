@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import "./Home.css";
 
 import {
@@ -7,9 +6,7 @@ import {
   Grid,
   Row,
   Col,
-  Image,
-  Button,
-  Media
+  Image
 } from "react-bootstrap";
 
 class Home extends Component {

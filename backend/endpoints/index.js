@@ -4,6 +4,7 @@ var genre = require('./genre.js')
 var label = require('./label.js')
 var track = require('./track.js')
 var country = require('./country.js')
+var imageUploader = require('./imageUploader.js')
 
 module.exports = (app) => {
     app.use('/', band.router);
@@ -12,4 +13,5 @@ module.exports = (app) => {
     app.use('/', label.router);
     app.use('/', track.router);
     app.use('/', country.router);
+    app.use('/',imageUploader.router)
 } 

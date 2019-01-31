@@ -6,8 +6,14 @@ import {
   FETCH_COUNTRIES,
   FETCH_LABELS,
   FETCH_BANDS,
-  FETCH_GENRES
+  FETCH_GENRES,
+  UPDATE_YEAR,
+  UPDATE_NAME,
+  BEGIN_ADD_DISC,
+  ADD_DISC_SUCCESS,
+  ADD_DISC_FAILURE
 } from "./types";
+import { get, postMultipart } from "../helpers/fetch";
 
 export const updateCountry = country => dispatch => {
   dispatch({
@@ -37,43 +43,117 @@ export const updateLabel = label => dispatch => {
   });
 };
 
+export const updateName = name => dispatch => {
+  dispatch({
+    type: UPDATE_NAME,
+    name
+  });
+};
+
+export const updateYear = year => dispatch => {
+  dispatch({
+    type: UPDATE_YEAR,
+    year
+  });
+};
+
 export const fetchCountries = () => dispatch => {
-  fetch("http://localhost:3000/countries")
-    .then(res => res.json())
-    .then(data => {
-      dispatch({
-        type: FETCH_COUNTRIES,
-        countries: data
-      });
+  get("countries").then(data => {
+    dispatch({
+      type: FETCH_COUNTRIES,
+      countries: data
     });
+  });
 };
 export const fetchBands = () => dispatch => {
-  fetch("http://localhost:3000/bands")
-    .then(res => res.json())
-    .then(data => {
-      dispatch({
-        type: FETCH_BANDS,
-        bands: data
-      });
+  get("bands").then(data => {
+    dispatch({
+      type: FETCH_BANDS,
+      bands: data
     });
+  });
 };
 export const fetchLabels = () => dispatch => {
-  fetch("http://localhost:3000/labels")
-    .then(res => res.json())
-    .then(data => {
-      dispatch({
-        type: FETCH_LABELS,
-        labels: data
-      });
+  get("labels").then(data => {
+    dispatch({
+      type: FETCH_LABELS,
+      labels: data
     });
+  });
 };
 export const fetchGenres = () => dispatch => {
-  fetch("http://localhost:3000/genres")
+  get("genres").then(data => {
+    dispatch({
+      type: FETCH_GENRES,
+      genres: data
+    });
+  });
+};
+
+const addDiscSuccess = track => dispatch => {
+  dispatch({
+    type: ADD_DISC_SUCCESS,
+    disc: track.newDisc,
+    loading: false
+  });
+};
+
+const addTrackFailure = () => dispatch => {
+  dispatch({
+    type: ADD_DISC_FAILURE,
+    loading: false
+  });
+};
+
+export const addDisc = ({
+  name,
+  band,
+  year,
+  genre,
+  label,
+  country,
+  tracks
+}) => dispatch => {
+  dispatch({
+    type: BEGIN_ADD_DISC,
+    loading: true
+  });
+
+  fetch("http://localhost:3000/disc", {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      name: name,
+      band: band,
+      year: year,
+      genre: genre,
+      label: label,
+      country: country,
+      tracks: tracks.map(element => element._id)
+    })
+  })
     .then(res => res.json())
     .then(data => {
-      dispatch({
-        type: FETCH_GENRES,
-        genres: data
-      });
+      addDiscSuccess(data.newDisc);
+    })
+    .catch(error => {
+      addTrackFailure();
     });
+};
+
+export const setLoading = loading => dispatch => {
+  dispatch({
+    type: BEGIN_ADD_DISC,
+    loading
+  });
+};
+
+export const uploadImages = element => dispatch => {
+  let data = new FormData();
+  data.append("file", element);
+  data.append("name", element.name);
+  return postMultipart("image", data)
 };

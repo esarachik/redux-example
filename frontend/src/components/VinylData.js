@@ -17,7 +17,9 @@ import {
   fetchBands,
   fetchCountries,
   fetchGenres,
-  fetchLabels
+  fetchLabels,
+  updateName,
+  updateYear
 } from "../actions/vinylActions";
 import DropDown from "../controls/DropDown";
 
@@ -29,32 +31,36 @@ class VinylData extends Component {
     this.invoke = this.invoke.bind(this);
 
     this.state = {
+      name: this.props.name,
+      year: this.props.year,
       countries: [],
       bands: [],
       genres: [],
-      labels: []
+      labels: [],
+      country: this.props.country,
+      band: this.props.band,
+      genre: this.props.genre,
+      label: this.props.label
     };
   }
 
-  componentWillMount() {
+  componentWillMount = () => {
     this.props.fetchBands();
     this.props.fetchCountries();
     this.props.fetchGenres();
     this.props.fetchLabels();
-  }
+  };
 
-  handleChange(e) {
+  handleChange = event => e => {
     this.setState({ [e.target.id]: e.target.value });
-  }
+    event(e.target.value);
+  };
 
-  invoke = event => e => {
-    event({ name: e.target.value });
+  invoke = event => value => {   
+    event({ _id: value });
   };
 
   render() {
-    
-    const { updateBand, updateCountry, updateGenre, updateLabel } = this.props;
-
     return (
       <React.Fragment>
         <Row>
@@ -67,7 +73,7 @@ class VinylData extends Component {
               <FormControl
                 type="text"
                 value={this.state.name}
-                onChange={this.handleChange}
+                onChange={this.handleChange(this.props.updateName)}
               />
               <FormControl.Feedback />
             </FormGroup>
@@ -76,8 +82,9 @@ class VinylData extends Component {
             <DropDown
               label={"Band"}
               list={this.props.bands}
-              state={this.state.band}
-              action={this.invoke(updateBand)}
+              state={this.props.band._id}
+              action={this.invoke(this.props.updateBand)}
+              model={'band'}
             />
           </Col>
           <Col xs={12} md={4}>
@@ -89,7 +96,7 @@ class VinylData extends Component {
               <FormControl
                 type="text"
                 value={this.state.year}
-                onChange={this.handleChange}
+                onChange={this.handleChange(this.props.updateYear)}
               />
               <FormControl.Feedback />
             </FormGroup>
@@ -101,24 +108,27 @@ class VinylData extends Component {
             <DropDown
               label={"Genre"}
               list={this.props.genres}
-              state={this.state.genre}
-              action={this.invoke(updateGenre)}
+              state={this.props.genre._id}
+              action={this.invoke(this.props.updateGenre)}
+              model={'genre'}
             />
           </Col>
           <Col xs={12} md={4}>
             <DropDown
               label={"Label"}
               list={this.props.labels}
-              state={this.state.label}
-              action={this.invoke(updateLabel)}
+              state={this.props.label._id}
+              action={this.invoke(this.props.updateLabel)}
+              model={'label'}
             />
           </Col>
           <Col xs={12} md={4}>
             <DropDown
               label={"Country"}
               list={this.props.countries}
-              state={this.state.country}
-              action={this.invoke(updateCountry)}
+              state={this.props.country._id}
+              action={this.invoke(this.props.updateCountry)}
+              model={'country'}
             />
           </Col>
         </Row>
@@ -128,10 +138,16 @@ class VinylData extends Component {
 }
 
 const mapStateToProps = state => ({
+  name: state.vinyl.name,
+  year: state.vinyl.year,
   countries: state.vinyl.countries,
   bands: state.vinyl.bands,
   labels: state.vinyl.labels,
-  genres: state.vinyl.genres
+  genres: state.vinyl.genres,
+  country: state.vinyl.country,
+  band: state.vinyl.band,
+  label: state.vinyl.label,
+  genre: state.vinyl.genre
 });
 
 export default connect(
@@ -144,6 +160,8 @@ export default connect(
     fetchBands,
     fetchCountries,
     fetchGenres,
-    fetchLabels
+    fetchLabels,
+    updateName,
+    updateYear
   }
 )(VinylData);

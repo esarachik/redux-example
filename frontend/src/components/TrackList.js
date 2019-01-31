@@ -9,7 +9,10 @@ import {
   Button,
   Table
 } from "react-bootstrap";
-import { addTrack, removeTrack } from "../actions/trackActions";
+import {
+  addTrack,
+  removeTrack
+} from "../actions/trackActions";
 import { getValidationState } from "../validations";
 
 class TrackList extends Component {
@@ -20,7 +23,8 @@ class TrackList extends Component {
     this.handleAddTrack = this.handleAddTrack.bind(this);
 
     this.state = {
-      tracks: []
+      trackName:'',
+      trackDuration:''
     };
   }
 
@@ -29,12 +33,15 @@ class TrackList extends Component {
   }
 
   handleAddTrack() {
-    this.state.tracks.push({
-      number: this.state.tracks.length + 1,
-      name: this.state.trackName,
-      duration: this.state.trackDuration
-    });
-    this.setState({ tracks: this.state.tracks });
+    const { trackName, trackDuration } = this.state;
+    let tracks = this.props.tracks;
+
+    const newTrack = {
+      number: tracks.length + 1,
+      name: trackName,
+      duration: trackDuration
+    };    
+    this.props.addTrack(newTrack);
   }
 
   render() {
@@ -93,10 +100,10 @@ class TrackList extends Component {
             </tr>
           </thead>
           <tbody>
-            {this.state.tracks && this.state.tracks.length > 0 ? (
-              this.state.tracks.map(element => {
+            { this.props.tracks.length > 0 ? (
+              this.props.tracks.map(element => {
                 return (
-                  <tr>
+                  <tr key={element._id}>
                     <td>{element.number}</td>
                     <td>{element.name}</td>
                     <td>{element.duration}</td>
@@ -114,8 +121,10 @@ class TrackList extends Component {
     );
   }
 }
-
+const mapStateToProps = state => ({
+  tracks: state.track.tracks 
+});
 export default connect(
-  null,
+  mapStateToProps,
   { addTrack, removeTrack }
 )(TrackList);

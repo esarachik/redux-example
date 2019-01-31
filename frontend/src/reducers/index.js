@@ -1,8 +1,8 @@
 import { combineReducers } from "redux"
-import postReducer from './postReducer'
 import vinyl from './vinyl'
+import track from './track'
 
 export default combineReducers({
-    posts: postReducer,
-    vinyl
+    vinyl,
+    track
 })

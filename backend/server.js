@@ -4,6 +4,11 @@ var bodyParser = require("body-parser");
 var express = require("express");
 var mongoose = require("mongoose");
 var app = express();
+var dotenv = require('dotenv');
+
+
+
+dotenv.config({path:'backend/.env'})  
 
 console.log("-Iniciando Server-");
 
@@ -14,8 +19,9 @@ app.use(bodyParser.json());
 
 require("./endpoints")(app);
 
+console.log(process.execPath)
 mongoose.connect(
-  "mongodb://esarachik:eliandy2@ds033066.mlab.com:33066/vinyl-collection",
+  process.env.MONGO_CONNECTION_STRING,
   { useMongoClient: true },
   err => {
     if (!err) console.log("-Connected to mongoDB-");
