@@ -11,8 +11,7 @@ import {
   FETCH_LABELS,
   BEGIN_ADD_DISC,
   ADD_DISC_SUCCESS,
-  ADD_DISC_FAILURE,
-  IS_LOADING
+  ADD_DISC_FAILURE
 } from "../actions/types";
 
 const initialState = {
@@ -26,7 +25,7 @@ const initialState = {
   genre: {},
   labels: [],
   label: {},
-  isLoading: false
+  loading: false
 };
 
 export default function(state = initialState, action) {
@@ -96,12 +95,7 @@ export default function(state = initialState, action) {
       return {
         ...state,
         loading: action.loading
-      };
-    case IS_LOADING:
-      return {
-        ...state,
-        loading: action.loading
-      };
+      };  
     default:
       return state;
   }

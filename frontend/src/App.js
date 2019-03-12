@@ -3,10 +3,11 @@ import "./App.css";
 import { Provider } from "react-redux";
 import store from "./store";
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import Home from "./components/Home";
+import VinylList from "./components/VinylList";
 import News from "./components/News";
 import AddVinyl from "./components/AddVinyl";
 import Navbar from "./components/CustomNavbar";
+import Loading from "./components/Loading";
 
 class App extends Component {
   render() {
@@ -14,8 +15,9 @@ class App extends Component {
       <Provider store={store}>
         <Router>
           <div>
+            <Loading />
             <Navbar />
-            <Route exact path="/" component={Home} />
+            <Route exact path="/" component={VinylList} />
             <Route path="/add-vinyl" component={AddVinyl} />
             <Route path="/news" component={News} />
           </div>
@@ -26,17 +28,3 @@ class App extends Component {
 }
 
 export default App;
-
-// <Provider store={store}>
-//   <div className="App">
-//     <header className="App-header">
-//       <img src={logo} className="App-logo" alt="logo" />
-//       <p>
-//       Blog
-//       </p>
-//     </header>
-//     <Postform/>
-//     <hr/>
-//     <Posts />
-//   </div>
-// </Provider>

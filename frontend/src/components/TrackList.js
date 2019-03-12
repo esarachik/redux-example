@@ -13,7 +13,6 @@ import {
   addTrack,
   removeTrack
 } from "../actions/trackActions";
-import { getValidationState } from "../validations";
 
 class TrackList extends Component {
   constructor(props, context) {
@@ -51,7 +50,6 @@ class TrackList extends Component {
           <Col xs={12} md={4}>
             <FormGroup
               controlId="trackName"
-              validationState={getValidationState(this.state.trackName)}
             >
               <ControlLabel>Track</ControlLabel>
               <FormControl
@@ -65,7 +63,6 @@ class TrackList extends Component {
           <Col xs={12} md={4}>
             <FormGroup
               controlId="trackDuration"
-              validationState={getValidationState(this.state.trackDuration)}
             >
               <ControlLabel>Duration</ControlLabel>
               <FormControl

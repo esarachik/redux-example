@@ -5,25 +5,32 @@ import { Link } from "react-router-dom";
 class CustomNavbar extends Component {
   render() {
     return (
-      <Navbar default collapseOnSelect>
+      <Navbar bg="primary" variant="dark">
         <Navbar.Header>
           <Navbar.Brand>
-            <Link to="/">CodeLife</Link>
+            <Link to="/">
+              <h4>CodeLife</h4>
+            </Link>
           </Navbar.Brand>
-          <Navbar.Toggle/>          
+          <Navbar.Toggle />
         </Navbar.Header>
         <Navbar.Collapse>
-            <Nav pullRight>
-                <NavItem eventKey={1} componentClass={Link} href="/" to="">
-                    Home
-                </NavItem>
-                <NavItem eventKey={2} componentClass={Link} href="/about" to="/about">
-                    About
-                </NavItem>
-                <NavItem eventKey={3} componentClass={Link} href="/news" to="/news">
-                    News
-                </NavItem>
-            </Nav>
+          <Nav pullRight>
+            <NavItem eventKey={1} componentClass={Link} href="/" to="">
+              <h4>Home</h4>
+            </NavItem>
+            <NavItem
+              eventKey={2}
+              componentClass={Link}
+              href="/add-vinyl"
+              to="/add-vinyl"
+            >
+              <h4>Add Vinyl</h4>
+            </NavItem>
+            <NavItem eventKey={3} componentClass={Link} href="/news" to="/news">
+              <h4> News</h4>
+            </NavItem>
+          </Nav>
         </Navbar.Collapse>
       </Navbar>
     );

@@ -11,9 +11,10 @@ import {
   UPDATE_NAME,
   BEGIN_ADD_DISC,
   ADD_DISC_SUCCESS,
-  ADD_DISC_FAILURE
+  ADD_DISC_FAILURE,
+  SET_LOADING
 } from "./types";
-import { get, postMultipart } from "../helpers/fetch";
+import { get } from "../helpers/fetch";
 
 export const updateCountry = country => dispatch => {
   dispatch({
@@ -146,14 +147,8 @@ export const addDisc = ({
 
 export const setLoading = loading => dispatch => {
   dispatch({
-    type: BEGIN_ADD_DISC,
+    type: SET_LOADING,
     loading
   });
 };
 
-export const uploadImages = element => dispatch => {
-  let data = new FormData();
-  data.append("file", element);
-  data.append("name", element.name);
-  return postMultipart("image", data)
-};
